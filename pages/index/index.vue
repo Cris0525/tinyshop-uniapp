@@ -219,6 +219,7 @@
 </template>
 
 <script>
+	import goodsApi from '../../api/goods.js'
 	export default {
 
 		data() {
@@ -226,27 +227,47 @@
 				titleNViewBackground: '',
 				swiperCurrent: 0,
 				swiperLength: 0,
+				shopBannerList: [],
 				carouselList: [],
-				goodsList: []
+				goodsList: [],
+				categoryList: [],
+				userData: {
+					merchantId: '1'
+				}
 			};
 		},
 
 		onLoad() {
-			// this.$axios.get('http://mall.tucy.top/api/user/info').then(resp=>{
-			// 	console.log(resp,'resp')
-			// }).catch(err=>{
-
-			// })
 			this.loadData();
+			this.getShopBannerList();
+			this.getCategoryList();
 		},
 		methods: {
+			getShopBannerList() {
+				goodsApi.shopBannerList(this.userData).then(resp => {
+					console.log(resp,'resp')
+				}).catch(err=>{
+					
+				})
+			},
+			getCategoryList() {
+				var opt = {
+					page: 1,
+					pageSize: 10,
+				}
+				goodsApi.getGoodsList(opt).then(resp => {
+					console.log(resp, 'xxx')
+				})
+				// this.$axios.get('/goodCategory/tree',{params:opt}).then(resp=>{
+				// 	console.log(resp,'resp')
+				// })
+			},
 			/**
 			 * 请求静态数据只是为了代码不那么乱
 			 * 分次请求未作整合
 			 */
 			async loadData() {
 				let carouselList = await this.$api.json('carouselList');
-				console.log(carouselList, 'carouselList')
 				this.titleNViewBackground = carouselList[0].background;
 				this.swiperLength = carouselList.length;
 				this.carouselList = carouselList;

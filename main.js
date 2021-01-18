@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import store from './store'
 import App from './App'
-import axios from 'axios'
+// import axios from 'axios'
+import axios from './api/'
 
 import Json from './Json' //测试用数据
 /**
